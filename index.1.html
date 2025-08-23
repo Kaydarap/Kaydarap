@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kaydarap</title>
+  <meta name="description" content="Kaydarap" />
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Kaydarap" />
+  <meta property="og:description" content=" " />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0b0b0c" />
+  <style>
+    :root{
+      --bg-0:#050506;
+      --bg-1:#0a0a0b;
+      --bg-2:#121214;
+      --fg:#f2f2f2;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--fg);
+      background:
+        radial-gradient(120% 160% at 50% 0%, var(--bg-2) 0%, var(--bg-1) 40%, var(--bg-0) 100%);
+      display:grid;
+      place-items:center;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+      color-scheme:dark;
+      position:relative;
+      overflow:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:absolute; inset:-50%;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.05"/></svg>');
+      background-size:240px 240px;
+      opacity:.5;
+      pointer-events:none;
+      mix-blend-mode:soft-light;
+      animation: drift 60s linear infinite;
+    }
+    @keyframes drift { to { transform: translate3d(10%,10%,0) } }
+
+    h1{
+      margin:0;
+      font-weight:900;
+      line-height:0.9;
+      letter-spacing:-0.04em;
+      text-align:center;
+      font-size: clamp(3rem, 18vw, 22rem);
+      opacity:0;
+      transform: translateY(8px);
+      animation: in .9s cubic-bezier(.21,1,.21,1) .05s forwards;
+      text-shadow: 0 1px 0 rgba(255,255,255,.03), 0 10px 40px rgba(0,0,0,.6);
+      user-select: none;
+    }
+    @keyframes in{to{opacity:1; transform:none}}
+
+    :root { --rx:0deg; --ry:0deg; }
+    .wrap{
+      transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+      transition: transform .2s ease-out;
+      will-change: transform;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      body::before{animation:none}
+      .wrap{transform:none !important}
+      h1{animation:none; opacity:1; transform:none}
+    }
+
+    ::selection{ background:#1f2937; color:#fff }
+  </style>
+</head>
+<body>
+  <div class="wrap" aria-label="Kaydarap">
+    <h1>Kaydarap</h1>
+  </div>
+
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const max = 4;
+      function set(e){
+        const x = (e.clientX ?? innerWidth/2) / innerWidth;
+        const y = (e.clientY ?? innerHeight/2) / innerHeight;
+        const ry = (x - .5) * max * 2;
+        const rx = - (y - .5) * max * 2;
+        root.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+        root.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+      }
+      addEventListener('mousemove', set, {passive:true});
+      set({clientX: innerWidth/2, clientY: innerHeight/2});
+    })();
+  </script>
+</body>
+</html>
