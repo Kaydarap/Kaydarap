@@ -1,221 +1,218 @@
 <!doctype html>
 <html lang="fa">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Kaydarap</title>
-<meta name="color-scheme" content="dark"/>
-<meta name="theme-color" content="#050507"/>
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#050507" />
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* ================= ROOT ================= */
 :root{
   --bg0:#050507; --bg1:#0a0b0e; --bg2:#101216;
   --fg:#eaeaf0; --muted:#a3a3ae;
-  --accent:#6bdcff; --glow:#6bdcff22;
+  --accent:#6bdcff;
+  --glow:#6bdcff22;
 
   --rgb-h:200;
-  --rgb:hsl(var(--rgb-h) 100% 65%);
-  --rgb2:hsl(calc(var(--rgb-h)+120) 100% 65%);
-  --rgb3:hsl(calc(var(--rgb-h)+240) 100% 65%);
+  --rgb: hsl(var(--rgb-h) 100% 65%);
+  --rgb2:hsl(calc(var(--rgb-h) + 120) 100% 65%);
+  --rgb3:hsl(calc(var(--rgb-h) + 240) 100% 65%);
 }
+
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{margin:0;height:100%}
+
 body{
-  margin:0;
-  background:radial-gradient(120% 160% at 50% -10%,var(--bg2),var(--bg1),var(--bg0));
+  background: radial-gradient(120% 160% at 50% -10%, var(--bg2) 0%, var(--bg1) 40%, var(--bg0) 100%);
   color:var(--fg);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
   overflow-x:hidden;
 }
 
-/* ================= GLOBAL STARS ================= */
-.stars{
-  position:fixed; inset:0;
-  z-index:0; pointer-events:none;
+/* ===== Global Stars ===== */
+.stars-global{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
 }
 
-/* ================= TOP BAR ================= */
+/* ===== Sections ===== */
+.section{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  position:relative;
+  z-index:1;
+  padding:0 16px;
+}
+
+/* ===== Top Bar ===== */
 .top{
-  position:fixed; inset:0 auto auto 0;
-  display:flex; align-items:center; gap:.7rem;
+  position:fixed;
+  inset:0 0 auto 0;
+  display:flex;
+  align-items:center;
+  gap:.75rem;
   padding:14px 18px;
-  z-index:10; pointer-events:none;
+  z-index:10;
+  pointer-events:none;
 }
-.brand{letter-spacing:.12em; font-weight:700; opacity:.9}
+.brand{
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:.95rem;
+  color:var(--muted);
+}
 
-/* ================= PLANET ================= */
-.planet-wrap{width:82px;height:82px;filter:drop-shadow(0 0 20px var(--glow))}
+/* ===== Planet (Blue) ===== */
+.planet-wrap{width:86px;height:86px}
 .planet{
-  width:100%;height:100%;border-radius:50%;
-  background:radial-gradient(120% 120% at 30% 30%,#8ff1ff,#2a9bff 25%,#0f1a3a 55%,#060810);
-  position:relative; overflow:hidden;
+  width:100%;height:100%;
+  border-radius:50%;
+  background:
+    radial-gradient(120% 120% at 30% 30%,
+      #8ff1ff 0%, #2a9bff 25%, #0f1a3a 55%, #0b0f24 70%, #060810 100%);
+  position:relative;
+  overflow:hidden;
 }
 .planet::after{
-  content:""; position:absolute; inset:-10%;
-  background:conic-gradient(rgba(255,255,255,.15),transparent 30%);
-  animation:spin 30s linear infinite;
+  content:"";
+  position:absolute; inset:-10%;
+  border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(255,255,255,.08), transparent 30%);
+  animation:spin 28s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ================= SECTIONS ================= */
-section{min-height:100vh; position:relative; z-index:1; display:grid; place-items:center}
-
-/* ================= HERO ================= */
-.hero h1{
-  font-family:'Dancing Script',cursive;
-  font-size:clamp(3rem,12vw,9rem);
+/* ===== Hero ===== */
+.hero-title{
+  font-family:'Dancing Script', cursive;
+  font-size:clamp(3rem,12vw,10rem);
+  color:#fff;
   text-shadow:
-    0 0 20px var(--rgb),
-    0 0 40px var(--rgb2),
-    0 0 80px var(--rgb3),
-    0 8px 28px rgba(0,0,0,.7);
+    0 0 18px var(--rgb),
+    0 0 38px var(--rgb2),
+    0 0 70px var(--rgb3);
 }
 
-/* ================= SPHERE ================= */
-#three{position:absolute; inset:0}
-
-/* ================= SKELETON ================= */
-.skeleton-wrap{
-  width:min(360px,80vw);
-  aspect-ratio:3/4;
+/* ===== Sphere Section ===== */
+.sphere-section{
+  min-height:100vh;
   position:relative;
 }
-canvas.skeleton{
-  width:100%;height:100%;
-  background:rgba(0,0,0,.25);
-  border-radius:18px;
-  box-shadow:
-    0 0 25px rgba(200,80,255,.6),
-    0 0 60px rgba(120,50,255,.4);
+.three-wrap{
+  position:absolute;
+  inset:0;
 }
 
-/* ================= LINKS ================= */
-.links{padding:80px 16px}
+/* ===== Skeleton Section ===== */
+.skeleton-section{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.skeleton-frame{
+  width:100%;
+  height:100vh;
+  border:none;
+}
+
+/* ===== Links ===== */
 .links-inner{
-  width:min(1100px,95vw);
-  display:grid; grid-template-columns:1fr 1fr; gap:24px;
+  width:min(1100px,94vw);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
 }
-.laser{
-  padding:18px;
-  border-radius:16px;
+.links-title{
+  grid-column:1/-1;
+  text-align:center;
+  font-weight:900;
+}
+.rgb-word{
+  color:var(--rgb);
+  text-shadow:0 0 20px var(--rgb2);
+}
+
+.laser-card{
   position:relative;
-  color:white;
+  padding:18px;
+  color:#eafaff;
   text-decoration:none;
-  background:rgba(20,30,40,.6);
+  border-radius:14px;
+  backdrop-filter: blur(6px);
+  background:rgba(10,16,24,.45);
 }
-.laser::before{
-  content:""; position:absolute; inset:-2px;
+.laser-card::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:16px;
   background:conic-gradient(var(--rgb),var(--rgb2),var(--rgb3),var(--rgb));
-  filter:blur(8px); z-index:-1;
+  animation:rgbFlow 1.4s linear infinite;
+  z-index:-1;
 }
-@media(max-width:800px){.links-inner{grid-template-columns:1fr}}
+@keyframes rgbFlow{to{transform:rotate(360deg)}}
+
+@media(max-width:860px){
+  .links-inner{grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
 
-<canvas class="stars" id="stars"></canvas>
+<canvas class="stars-global" id="starsGlobal"></canvas>
 
 <div class="top">
   <div class="planet-wrap"><div class="planet"></div></div>
   <div class="brand">Kaydarap</div>
 </div>
 
-<section class="hero">
-  <h1>Kaydarap</h1>
+<!-- PAGE 1 -->
+<section class="section">
+  <h1 class="hero-title">Kaydarap</h1>
 </section>
 
-<section>
-  <div id="three"></div>
+<!-- PAGE 2 -->
+<section class="sphere-section">
+  <div class="three-wrap" id="three-container"></div>
 </section>
 
-<section>
-  <div class="skeleton-wrap">
-    <canvas class="skeleton" id="skel"></canvas>
-  </div>
+<!-- PAGE 3 -->
+<section class="skeleton-section">
+  <iframe class="skeleton-frame" src="skeleton/index.html"></iframe>
 </section>
 
-<section class="links">
+<!-- PAGE 4 -->
+<section class="section">
   <div class="links-inner">
-    <a class="laser" href="#">Instagram</a>
-    <a class="laser" href="#">Telegram</a>
-    <a class="laser" href="#">GitHub</a>
-    <a class="laser" href="#">Discord</a>
+    <div class="links-title">Connect with <span class="rgb-word">Kaydarap</span></div>
+
+    <a class="laser-card" href="https://instagram.com/Kaydarap" target="_blank">Instagram</a>
+    <a class="laser-card" href="https://t.me/Kaydarap" target="_blank">Telegram</a>
+    <a class="laser-card" href="https://github.com/Kaydarap" target="_blank">GitHub</a>
+    <a class="laser-card" href="mailto:Kaydarap@gmail.com">Email</a>
   </div>
 </section>
 
-<script type="module">
-import * as THREE from "https://unpkg.com/three@0.157.0/build/three.module.js";
-
-/* ========= RGB LOOP ========= */
-let h=200;
-(function loop(t){
-  h=(h+0.02)%360;
-  document.documentElement.style.setProperty('--rgb-h',h);
-  requestAnimationFrame(loop);
-})();
-
-/* ========= STARS ========= */
-const sc=document.getElementById("stars"),ctx=sc.getContext("2d");
-function resize(){
-  sc.width=innerWidth*devicePixelRatio;
-  sc.height=innerHeight*devicePixelRatio;
-  ctx.scale(devicePixelRatio,devicePixelRatio);
-}
-resize(); addEventListener("resize",resize);
-const stars=[...Array(400)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5,a:Math.random()}));
-(function draw(){
-  ctx.clearRect(0,0,innerWidth,innerHeight);
-  for(const s of stars){
-    s.a+=Math.random()*0.02;
-    ctx.fillStyle=`rgba(200,230,255,${Math.abs(Math.sin(s.a))})`;
-    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+<script>
+/* RGB hue loop */
+(function(){
+  let h=200;
+  function step(){
+    h=(h+0.3)%360;
+    document.documentElement.style.setProperty('--rgb-h',h);
+    requestAnimationFrame(step);
   }
-  requestAnimationFrame(draw);
-})();
-
-/* ========= SPHERE ========= */
-const r=new THREE.WebGLRenderer({alpha:true});
-document.getElementById("three").appendChild(r.domElement);
-const scene=new THREE.Scene();
-const cam=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,100);
-cam.position.z=8;
-const geo=new THREE.SphereGeometry(3,32,32);
-const mat=new THREE.MeshBasicMaterial({wireframe:true,color:0x6bdcff});
-scene.add(new THREE.Mesh(geo,mat));
-function resize3(){
-  r.setSize(innerWidth,innerHeight);
-  cam.aspect=innerWidth/innerHeight;
-  cam.updateProjectionMatrix();
-}
-resize3(); addEventListener("resize",resize3);
-(function anim(){
-  scene.rotation.y+=0.002;
-  r.render(scene,cam);
-  requestAnimationFrame(anim);
-})();
-
-/* ========= SKELETON PARALLAX ========= */
-const sk=document.getElementById("skel"),skx=sk.getContext("2d");
-let px=0,py=0;
-addEventListener("mousemove",e=>{
-  px=(e.clientX/innerWidth-.5)*20;
-  py=(e.clientY/innerHeight-.5)*20;
-});
-(function drawSkel(){
-  skx.clearRect(0,0,sk.width,sk.height);
-  skx.save();
-  skx.translate(sk.width/2+px,sk.height/2+py);
-  skx.strokeStyle="rgba(255,80,255,.9)";
-  skx.lineWidth=2;
-  skx.beginPath();
-  skx.arc(0,0,80,0,Math.PI*2);
-  skx.stroke();
-  skx.restore();
-  requestAnimationFrame(drawSkel);
+  step();
 })();
 </script>
+
 </body>
 </html>
