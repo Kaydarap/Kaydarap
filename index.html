@@ -1,219 +1,221 @@
 <!doctype html>
 <html lang="fa">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Kaydarap</title>
-  <meta name="description" content="Kaydarap" />
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#050507" />
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Kaydarap</title>
+<meta name="color-scheme" content="dark"/>
+<meta name="theme-color" content="#050507"/>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg0:#050507; --bg1:#0a0b0e; --bg2:#101216;
-      --fg:#eaeaf0; --muted:#a3a3ae;
-      --accent:#6bdcff;
-      --glow:#6bdcff22;
+<style>
+/* ================= ROOT ================= */
+:root{
+  --bg0:#050507; --bg1:#0a0b0e; --bg2:#101216;
+  --fg:#eaeaf0; --muted:#a3a3ae;
+  --accent:#6bdcff; --glow:#6bdcff22;
 
-      --rgb-h: 200;
-      --rgb: hsl(var(--rgb-h) 100% 65%);
-      --rgb2: hsl(calc(var(--rgb-h) + 120) 100% 65%);
-      --rgb3: hsl(calc(var(--rgb-h) + 240) 100% 65%);
-    }
+  --rgb-h:200;
+  --rgb:hsl(var(--rgb-h) 100% 65%);
+  --rgb2:hsl(calc(var(--rgb-h)+120) 100% 65%);
+  --rgb3:hsl(calc(var(--rgb-h)+240) 100% 65%);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:radial-gradient(120% 160% at 50% -10%,var(--bg2),var(--bg1),var(--bg0));
+  color:var(--fg);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  overflow-x:hidden;
+}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
+/* ================= GLOBAL STARS ================= */
+.stars{
+  position:fixed; inset:0;
+  z-index:0; pointer-events:none;
+}
 
-    body{
-      margin:0;
-      color:var(--fg);
-      background: radial-gradient(120% 160% at 50% -10%, var(--bg2) 0%, var(--bg1) 40%, var(--bg0) 100%);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      overflow-x:hidden;
-    }
+/* ================= TOP BAR ================= */
+.top{
+  position:fixed; inset:0 auto auto 0;
+  display:flex; align-items:center; gap:.7rem;
+  padding:14px 18px;
+  z-index:10; pointer-events:none;
+}
+.brand{letter-spacing:.12em; font-weight:700; opacity:.9}
 
-    /* ⭐ Global stars */
-    .stars-global{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      pointer-events:none;
-      z-index:0;
-    }
+/* ================= PLANET ================= */
+.planet-wrap{width:82px;height:82px;filter:drop-shadow(0 0 20px var(--glow))}
+.planet{
+  width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(120% 120% at 30% 30%,#8ff1ff,#2a9bff 25%,#0f1a3a 55%,#060810);
+  position:relative; overflow:hidden;
+}
+.planet::after{
+  content:""; position:absolute; inset:-10%;
+  background:conic-gradient(rgba(255,255,255,.15),transparent 30%);
+  animation:spin 30s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    .section, .sphere-section, .links{
-      position:relative;
-      z-index:1;
-    }
+/* ================= SECTIONS ================= */
+section{min-height:100vh; position:relative; z-index:1; display:grid; place-items:center}
 
-    .section{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:0 16px;
-    }
+/* ================= HERO ================= */
+.hero h1{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(3rem,12vw,9rem);
+  text-shadow:
+    0 0 20px var(--rgb),
+    0 0 40px var(--rgb2),
+    0 0 80px var(--rgb3),
+    0 8px 28px rgba(0,0,0,.7);
+}
 
-    .top{
-      position:fixed;
-      inset:0 0 auto 0;
-      display:flex;
-      align-items:center;
-      gap:.75rem;
-      padding:14px 18px;
-      pointer-events:none;
-      z-index:10;
-    }
+/* ================= SPHERE ================= */
+#three{position:absolute; inset:0}
 
-    .brand{
-      font-weight:700;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:.95rem;
-      color:var(--muted);
-    }
+/* ================= SKELETON ================= */
+.skeleton-wrap{
+  width:min(360px,80vw);
+  aspect-ratio:3/4;
+  position:relative;
+}
+canvas.skeleton{
+  width:100%;height:100%;
+  background:rgba(0,0,0,.25);
+  border-radius:18px;
+  box-shadow:
+    0 0 25px rgba(200,80,255,.6),
+    0 0 60px rgba(120,50,255,.4);
+}
 
-    /* 🌍 Planet */
-    .planet-wrap{
-      width:86px;
-      height:86px;
-      filter: drop-shadow(0 0 18px var(--glow)) drop-shadow(0 0 48px var(--glow));
-    }
-
-    .planet{
-      width:100%;
-      height:100%;
-      border-radius:50%;
-      background:
-        radial-gradient(120% 120% at 30% 30%,
-          #8ff1ff 0%,
-          #2a9bff 25%,
-          #0f1a3a 55%,
-          #060810 100%);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .planet::after{
-      content:"";
-      position:absolute;
-      inset:-10%;
-      border-radius:50%;
-      background: conic-gradient(from 0deg,
-        rgba(255,255,255,.08),
-        rgba(255,255,255,0) 30% 100%);
-      animation: spin 28s linear infinite;
-    }
-
-    @keyframes spin{to{transform:rotate(360deg)}}
-
-    /* ===== HERO ===== */
-    .hero-title{
-      font-family:'Dancing Script', cursive;
-      font-size: clamp(3rem, 12vw, 10rem);
-      text-align:center;
-      margin:0;
-      color:#fff;
-      text-shadow:
-        0 0 18px var(--rgb),
-        0 0 38px var(--rgb2),
-        0 0 70px var(--rgb3);
-    }
-
-    /* ===== SPHERE SECTION ===== */
-    .sphere-section{min-height:100vh;}
-    .three-wrap{position:absolute; inset:0;}
-    canvas{display:block; width:100%; height:100%;}
-
-    /* 🔧 Seam fix */
-    .sphere-section,
-    .three-wrap{
-      background:transparent !important;
-    }
-
-    /* ===== LINKS ===== */
-    .links{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:80px 16px;
-    }
-
-    .links-inner{
-      width:min(1100px,94vw);
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:24px;
-    }
-
-    .links-title{
-      grid-column:1/-1;
-      text-align:center;
-      font-weight:900;
-      font-size:clamp(1.4rem,3vw,2rem);
-      color:#e9faff;
-    }
-
-    .links-col{display:grid; gap:24px;}
-
-    .laser-card{
-      position:relative;
-      padding:18px;
-      display:flex;
-      gap:14px;
-      color:#dff7ff;
-      text-decoration:none;
-      background:rgba(10,16,24,.55);
-      backdrop-filter:blur(6px);
-      box-shadow:0 0 30px rgba(100,200,255,.15);
-    }
-
-    @media(max-width:860px){
-      .links-inner{grid-template-columns:1fr;}
-    }
-  </style>
+/* ================= LINKS ================= */
+.links{padding:80px 16px}
+.links-inner{
+  width:min(1100px,95vw);
+  display:grid; grid-template-columns:1fr 1fr; gap:24px;
+}
+.laser{
+  padding:18px;
+  border-radius:16px;
+  position:relative;
+  color:white;
+  text-decoration:none;
+  background:rgba(20,30,40,.6);
+}
+.laser::before{
+  content:""; position:absolute; inset:-2px;
+  background:conic-gradient(var(--rgb),var(--rgb2),var(--rgb3),var(--rgb));
+  filter:blur(8px); z-index:-1;
+}
+@media(max-width:800px){.links-inner{grid-template-columns:1fr}}
+</style>
 </head>
 
 <body>
 
-<canvas class="stars-global" id="starsGlobal"></canvas>
+<canvas class="stars" id="stars"></canvas>
 
 <div class="top">
-  <div class="planet-wrap">
-    <div class="planet"></div>
-  </div>
+  <div class="planet-wrap"><div class="planet"></div></div>
   <div class="brand">Kaydarap</div>
 </div>
 
-<!-- Page 1 -->
-<section class="section hero">
-  <h1 class="hero-title">Kaydarap</h1>
+<section class="hero">
+  <h1>Kaydarap</h1>
 </section>
 
-<!-- Page 2 -->
-<section class="sphere-section">
-  <div class="three-wrap" id="three-container"></div>
+<section>
+  <div id="three"></div>
 </section>
 
-<!-- Page 3 : LINKS (unchanged) -->
-<section class="links">
-  <div class="links-inner">
-    <div class="links-title">Connect with Kaydarap</div>
-
-    <div class="links-col">
-      <a class="laser-card" href="https://instagram.com/Kaydarap">Instagram</a>
-      <a class="laser-card" href="https://t.me/Kaydarap">Telegram</a>
-      <a class="laser-card" href="https://github.com/Kaydarap">GitHub</a>
-    </div>
-
-    <div class="links-col">
-      <a class="laser-card" href="mailto:Kaydarap@gmail.com">Email</a>
-      <a class="laser-card" href="https://discord.com/users/Kaydarap">Discord</a>
-    </div>
+<section>
+  <div class="skeleton-wrap">
+    <canvas class="skeleton" id="skel"></canvas>
   </div>
 </section>
 
+<section class="links">
+  <div class="links-inner">
+    <a class="laser" href="#">Instagram</a>
+    <a class="laser" href="#">Telegram</a>
+    <a class="laser" href="#">GitHub</a>
+    <a class="laser" href="#">Discord</a>
+  </div>
+</section>
+
+<script type="module">
+import * as THREE from "https://unpkg.com/three@0.157.0/build/three.module.js";
+
+/* ========= RGB LOOP ========= */
+let h=200;
+(function loop(t){
+  h=(h+0.02)%360;
+  document.documentElement.style.setProperty('--rgb-h',h);
+  requestAnimationFrame(loop);
+})();
+
+/* ========= STARS ========= */
+const sc=document.getElementById("stars"),ctx=sc.getContext("2d");
+function resize(){
+  sc.width=innerWidth*devicePixelRatio;
+  sc.height=innerHeight*devicePixelRatio;
+  ctx.scale(devicePixelRatio,devicePixelRatio);
+}
+resize(); addEventListener("resize",resize);
+const stars=[...Array(400)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5,a:Math.random()}));
+(function draw(){
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  for(const s of stars){
+    s.a+=Math.random()*0.02;
+    ctx.fillStyle=`rgba(200,230,255,${Math.abs(Math.sin(s.a))})`;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ========= SPHERE ========= */
+const r=new THREE.WebGLRenderer({alpha:true});
+document.getElementById("three").appendChild(r.domElement);
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.1,100);
+cam.position.z=8;
+const geo=new THREE.SphereGeometry(3,32,32);
+const mat=new THREE.MeshBasicMaterial({wireframe:true,color:0x6bdcff});
+scene.add(new THREE.Mesh(geo,mat));
+function resize3(){
+  r.setSize(innerWidth,innerHeight);
+  cam.aspect=innerWidth/innerHeight;
+  cam.updateProjectionMatrix();
+}
+resize3(); addEventListener("resize",resize3);
+(function anim(){
+  scene.rotation.y+=0.002;
+  r.render(scene,cam);
+  requestAnimationFrame(anim);
+})();
+
+/* ========= SKELETON PARALLAX ========= */
+const sk=document.getElementById("skel"),skx=sk.getContext("2d");
+let px=0,py=0;
+addEventListener("mousemove",e=>{
+  px=(e.clientX/innerWidth-.5)*20;
+  py=(e.clientY/innerHeight-.5)*20;
+});
+(function drawSkel(){
+  skx.clearRect(0,0,sk.width,sk.height);
+  skx.save();
+  skx.translate(sk.width/2+px,sk.height/2+py);
+  skx.strokeStyle="rgba(255,80,255,.9)";
+  skx.lineWidth=2;
+  skx.beginPath();
+  skx.arc(0,0,80,0,Math.PI*2);
+  skx.stroke();
+  skx.restore();
+  requestAnimationFrame(drawSkel);
+})();
+</script>
 </body>
 </html>
