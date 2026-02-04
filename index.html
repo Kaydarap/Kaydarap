@@ -364,7 +364,12 @@
     <div class="three-wrap" id="three-container"></div>
   </section>
 
-  <!-- Section 3: Links (moved up; Skull removed) -->
+  <!-- Section 3 (Skull from your ZIP) -->
+  <section class="skull" id="skull">
+    <div id="skull-world"></div>
+  </section>
+
+  <!-- Section 4: Links -->
   <section class="links" id="links">
     <div class="links-inner">
       <div class="links-title">
@@ -733,5 +738,130 @@
     resize();
   </script>
 
+  <!-- ===== Section 3: Skull scripts (from your ZIP) ===== -->
+  <script type="module">
+    // This module will mount the skull into #skull-world
+    // We reuse your ZIP script logic but adapt container.
+    // We'll dynamically inject the original script logic by creating a module function.
+
+    // We will load the original code as an inline module equivalent by recreating the key DOM expectation.
+    // It expects: <div id="world"></div> and uses global THREE after it loads.
+    const world = document.getElementById('skull-world');
+    world.id = "world";
+  </script>
+
+  <!-- Original external libs order (to match ZIP behavior) -->
+  <script src="https://unpkg.com/three@0.121.1/build/three.min.js"></script>
+  <script src="https://unpkg.com/dat.gui@0.7.7/build/dat.gui.min.js"></script>
+
+  <!-- ZIP script content -->
+  <script type="module">
+/* === BEGIN: your ZIP script.js (unchanged) === */
+var world = document.querySelector("#world"),
+  W = window.innerWidth,
+  H = window.innerHeight;
+
+var loader = new THREE.TextureLoader();
+var points = [];
+var totalPoints = 10;
+
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+var intersectedObject = null;
+
+var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(W, H);
+world.appendChild(renderer.domElement);
+
+var scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x000000, 30, 150);
+
+var camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 1000);
+camera.position.z = 50;
+
+var geometry = new THREE.PlaneGeometry(20, 30, 5, 5);
+var material = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  wireframe: true,
+  transparent: true,
+  opacity: 0.3
+});
+
+var plane = new THREE.Mesh(geometry, material);
+scene.add(plane);
+
+var cardTexture = loader.load("https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+var card = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 30, 1, 1),
+  new THREE.MeshBasicMaterial({ map: cardTexture })
+);
+scene.add(card);
+
+var skullTexture = loader.load("https://images.unsplash.com/photo-1512568400610-62da28bc8a13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+var skull = new THREE.Mesh(
+  new THREE.PlaneGeometry(8, 8, 1, 1),
+  new THREE.MeshBasicMaterial({ map: skullTexture, transparent: true })
+);
+skull.position.set(0, 0, 0.1);
+scene.add(skull);
+
+var lines = [];
+for (var i = 0; i < totalPoints; i++) {
+  var lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+  var lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0)]);
+  var line = new THREE.Line(lineGeometry, lineMaterial);
+  scene.add(line);
+  lines.push(line);
+}
+
+function onMouseMove(event) {
+  mouse.x = (event.clientX / W) * 2 - 1;
+  mouse.y = -(event.clientY / H) * 2 + 1;
+}
+window.addEventListener('mousemove', onMouseMove);
+
+function onTouchMove(event) {
+  if (!event.touches || !event.touches[0]) return;
+  mouse.x = (event.touches[0].clientX / W) * 2 - 1;
+  mouse.y = -(event.touches[0].clientY / H) * 2 + 1;
+}
+window.addEventListener('touchmove', onTouchMove, {passive:true});
+
+function animateSkull() {
+  requestAnimationFrame(animateSkull);
+
+  raycaster.setFromCamera(mouse, camera);
+  var intersects = raycaster.intersectObject(plane);
+
+  if (intersects.length > 0) {
+    var p = intersects[0].point;
+    for (var i = 0; i < totalPoints; i++) {
+      var angle = (i / totalPoints) * Math.PI * 2;
+      var radius = 7 + Math.sin(Date.now() * 0.002 + i) * 1.2;
+      var x = p.x + Math.cos(angle) * radius;
+      var y = p.y + Math.sin(angle) * radius;
+
+      lines[i].geometry.setFromPoints([new THREE.Vector3(p.x, p.y, 0.2), new THREE.Vector3(x, y, 0.2)]);
+      lines[i].material.color.setHSL((Date.now()*0.0002 + i/totalPoints) % 1, 1, 0.6);
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+
+function resizeSkull(){
+  W = window.innerWidth;
+  H = window.innerHeight;
+  renderer.setSize(W, H);
+  camera.aspect = W/H;
+  camera.updateProjectionMatrix();
+}
+window.addEventListener('resize', resizeSkull);
+
+animateSkull();
+/* === END: your ZIP script.js === */
+  </script>
+
 </body>
 </html>
+این کدمه صفحه سومش رو حدف کن و صفحه چهارمش رو بزار جای سومی
