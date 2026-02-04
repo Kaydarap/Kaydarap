@@ -76,21 +76,6 @@ section{min-height:100vh; position:relative; z-index:1; display:grid; place-item
 /* ================= SPHERE ================= */
 #three{position:absolute; inset:0}
 
-/* ================= SKELETON ================= */
-.skeleton-wrap{
-  width:min(360px,80vw);
-  aspect-ratio:3/4;
-  position:relative;
-}
-canvas.skeleton{
-  width:100%;height:100%;
-  background:rgba(0,0,0,.25);
-  border-radius:18px;
-  box-shadow:
-    0 0 25px rgba(200,80,255,.6),
-    0 0 60px rgba(120,50,255,.4);
-}
-
 /* ================= LINKS ================= */
 .links{padding:80px 16px}
 .links-inner{
@@ -123,20 +108,17 @@ canvas.skeleton{
   <div class="brand">Kaydarap</div>
 </div>
 
+<!-- ===== SECTION 1 ===== -->
 <section class="hero">
   <h1>Kaydarap</h1>
 </section>
 
+<!-- ===== SECTION 2 ===== -->
 <section>
   <div id="three"></div>
 </section>
 
-<section>
-  <div class="skeleton-wrap">
-    <canvas class="skeleton" id="skel"></canvas>
-  </div>
-</section>
-
+<!-- ===== SECTION 3 (LINKS – formerly section 4) ===== -->
 <section class="links">
   <div class="links-inner">
     <a class="laser" href="#">Instagram</a>
@@ -151,7 +133,7 @@ import * as THREE from "https://unpkg.com/three@0.157.0/build/three.module.js";
 
 /* ========= RGB LOOP ========= */
 let h=200;
-(function loop(t){
+(function loop(){
   h=(h+0.02)%360;
   document.documentElement.style.setProperty('--rgb-h',h);
   requestAnimationFrame(loop);
@@ -162,7 +144,7 @@ const sc=document.getElementById("stars"),ctx=sc.getContext("2d");
 function resize(){
   sc.width=innerWidth*devicePixelRatio;
   sc.height=innerHeight*devicePixelRatio;
-  ctx.scale(devicePixelRatio,devicePixelRatio);
+  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
 }
 resize(); addEventListener("resize",resize);
 const stars=[...Array(400)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5,a:Math.random()}));
@@ -196,29 +178,7 @@ resize3(); addEventListener("resize",resize3);
   r.render(scene,cam);
   requestAnimationFrame(anim);
 })();
-
-/* ========= SKELETON PARALLAX ========= */
-const sk=document.getElementById("skel"),skx=sk.getContext("2d");
-let px=0,py=0;
-addEventListener("mousemove",e=>{
-  px=(e.clientX/innerWidth-.5)*20;
-  py=(e.clientY/innerHeight-.5)*20;
-});
-(function drawSkel(){
-  skx.clearRect(0,0,sk.width,sk.height);
-  skx.save();
-  skx.translate(sk.width/2+px,sk.height/2+py);
-  skx.strokeStyle="rgba(255,80,255,.9)";
-  skx.lineWidth=2;
-  skx.beginPath();
-  skx.arc(0,0,80,0,Math.PI*2);
-  skx.stroke();
-  skx.restore();
-  requestAnimationFrame(drawSkel);
-})();
 </script>
+
 </body>
 </html>
-
-
-
