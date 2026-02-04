@@ -7,16 +7,14 @@
   <meta name="description" content="Kaydarap" />
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#050507" />
+  <!-- Dancing Script font -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg0:#050507; --bg1:#0a0b0e; --bg2:#101216;
       --fg:#eaeaf0; --muted:#a3a3ae;
-
-      /* Original blue accent (for planet + general blue UI) */
-      --accent:#6bdcff;
-      --glow:#6bdcff22;
+      --accent:#6bdcff; --glow:#6bdcff22;
 
       /* RGB system (JS updates --rgb-h) */
       --rgb-h: 200;
@@ -29,24 +27,13 @@
     html,body{height:100%}
     body{
       margin:0; color:var(--fg);
-      /* ✅ SAME background for all 3 pages = your original (page 2) */
       background: radial-gradient(120% 160% at 50% -10%, var(--bg2) 0%, var(--bg1) 40%, var(--bg0) 100%);
       color-scheme:dark;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
       overflow-x:hidden;
     }
 
-    /* ✅ global star overlay for all pages */
-    .stars-global{
-      position:fixed; inset:0;
-      width:100%; height:100%;
-      z-index:0;
-      pointer-events:none;
-    }
-
-    .section, .sphere-section, .links{ position:relative; z-index:1; }
-
-    .section{ min-height:100vh; display:grid; place-items:center; padding:0 16px; }
+    .section{ min-height:100vh; position:relative; display:grid; place-items:center; padding:0 16px; }
 
     .top{
       position:fixed; inset:0 0 auto 0;
@@ -61,21 +48,21 @@
       font-size:.95rem; color:var(--muted); opacity:.9; user-select:none;
     }
 
-    /* ===== Planet (top-left) — BACK TO ORIGINAL BLUE ===== */
+    /* ===== Planet (top-left) ===== */
     .planet-wrap{
-      position:relative;
-      width:86px; height:86px;
-      filter: drop-shadow(0 0 18px var(--glow)) drop-shadow(0 0 48px var(--glow));
+      position:relative; width:86px; height:86px;
+      filter: drop-shadow(0 0 18px color-mix(in oklab, var(--rgb) 35%, transparent))
+              drop-shadow(0 0 48px color-mix(in oklab, var(--rgb2) 25%, transparent));
       pointer-events:none;
     }
     .planet{
-      position:relative; width:100%; height:100%;
-      border-radius:50%;
+      position:relative; width:100%; height:100%; border-radius:50%;
+      /* RGB gradient (keeps the same look, just RGB instead of blue) */
       background:
         radial-gradient(120% 120% at 30% 30%,
-          #8ff1ff 0%,
-          #2a9bff 25%,
-          #0f1a3a 55%,
+          color-mix(in oklab, white 20%, var(--rgb) 80%) 0%,
+          color-mix(in oklab, var(--rgb) 55%, #000 45%) 22%,
+          color-mix(in oklab, #0f1a3a 40%, var(--rgb2) 60%) 52%,
           #0b0f24 70%,
           #060810 100%);
       overflow:hidden; transform: translateZ(0);
@@ -92,7 +79,7 @@
     .planet::after{
       content:""; position:absolute; inset:-10%; border-radius:50%;
       background: conic-gradient(from 0deg,
-        rgba(255,255,255,.08),
+        rgba(255,255,255,.10),
         rgba(255,255,255,0) 30% 100%);
       animation: spin 28s linear infinite;
       mix-blend-mode:screen;
@@ -100,10 +87,9 @@
     @keyframes spin{to{transform:rotate(360deg)}}
 
     .ring{
-      position:absolute; inset:-20%;
-      border-radius:50%;
+      position:absolute; inset:-20%; border-radius:50%;
       background: radial-gradient(60% 15% at 50% 50%,
-        rgba(140,220,255,.35),
+        color-mix(in oklab, var(--rgb) 45%, transparent),
         rgba(140,220,255,0) 65%);
       transform: rotateX(70deg) rotateZ(-25deg);
       filter: blur(0.6px);
@@ -115,28 +101,43 @@
     }
 
     /* ===== HERO (page 1) ===== */
-    .hero{ overflow:hidden; }
+    .hero{
+      /* space-blue theme matching */
+      background:
+        radial-gradient(1200px 700px at 50% 30%, rgba(80,160,255,.12), transparent 55%),
+        radial-gradient(900px 600px at 30% 70%, rgba(40,120,255,.10), transparent 60%),
+        radial-gradient(1000px 700px at 70% 75%, rgba(120,220,255,.06), transparent 55%),
+        radial-gradient(140% 180% at 50% -10%, #0a1220 0%, #070a12 45%, #050507 100%);
+      overflow:hidden;
+    }
 
-    .hero-title{
-      position:relative; z-index:2;
-      font-family:'Dancing Script', cursive;
+    /* star canvas behind title */
+    .stars{
+      position:absolute; inset:0; z-index:0;
+      width:100%; height:100%;
+      display:block;
+    }
+
+    .hero-title {
+      position:relative; z-index:1;
+      font-family: 'Dancing Script', cursive;
       font-size: clamp(3rem, 12vw, 10rem);
-      text-align:center;
-      margin:0;
-      user-select:none;
+      text-align: center;
+      margin: 0;
+      user-select: none;
 
-      /* same glow you liked */
-      color:#ffffff;
+      /* RGB living glow (NO rotation) */
+      color: #ffffff;
       text-shadow:
         0 0 18px color-mix(in oklab, var(--rgb) 65%, transparent),
         0 0 38px color-mix(in oklab, var(--rgb2) 55%, transparent),
         0 0 70px color-mix(in oklab, var(--rgb3) 45%, transparent),
         0 6px 28px rgba(0,0,0,0.60);
-      filter:saturate(1.08);
+      filter: saturate(1.08);
     }
 
     /* ===== Section 2 (unchanged) ===== */
-    .sphere-section{ min-height:100vh; }
+    .sphere-section{ min-height:100vh; position:relative; }
     .title{
       position:absolute; top:18px; left:0; right:0;
       text-align:center; font-weight:800; letter-spacing:.02em;
@@ -144,14 +145,12 @@
       color:#f4fbff; text-shadow: 0 2px 20px rgba(80,170,220,.25);
       user-select:none; z-index:2;
     }
-    .three-wrap{
-      position:absolute; inset:0;
-      z-index:1; touch-action: pan-y;
-    }
+    .three-wrap{ position:absolute; inset:0; z-index:1; touch-action: pan-y; }
     canvas{ display:block; width:100%; height:100%; will-change: transform; }
 
     @supports (-webkit-touch-callout: none){
-      .sphere-section, .three-wrap, .hero { min-height: 100svh; }
+      .sphere-section, .three-wrap { min-height: 100svh; }
+      .hero{ min-height: 100svh; }
     }
     @media (max-width:480px){
       .planet-wrap{ width:72px; height:72px }
@@ -160,26 +159,23 @@
 
     /* ===== Section 3: Laser/Hologram Link Cards ===== */
     .links{
-      min-height:100vh;
-      display:flex; align-items:center; justify-content:center;
-      padding:80px 16px;
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      padding:80px 16px; position:relative;
     }
     .links-inner{
       width:min(1100px, 94vw);
       display:grid; grid-template-columns: 1fr 1fr;
       gap:24px; align-items:start;
-      position:relative; z-index:1;
     }
     .links-title{
-      grid-column:1/-1;
-      text-align:center;
-      font-weight:900; letter-spacing:.06em;
+      grid-column:1/-1; text-align:center; font-weight:900; letter-spacing:.06em;
       color:#e9faff;
       text-shadow: 0 0 18px rgba(107,220,255,.2);
       margin-bottom:8px;
       font-size: clamp(1.4rem, 3vw, 2rem);
       user-select:none;
     }
+    /* only the word Kaydarap in title becomes RGB (stable text, changing color) */
     .rgb-word{
       color: var(--rgb);
       text-shadow:
@@ -193,6 +189,7 @@
 
     .laser-card{
       --cut: 14px;
+
       position:relative;
       display:flex; align-items:center; gap:14px;
       padding:18px 18px;
@@ -211,11 +208,15 @@
       isolation:isolate;
     }
 
-    /* thick + faster RGB flow border (as you wanted) */
+    /* THICKER + faster RGB flow border */
     .laser-card::before{
       content:"";
-      position:absolute; inset:0; pointer-events:none;
-      padding:3px; border-radius:18px;
+      position:absolute; inset:0;
+      pointer-events:none;
+
+      /* thickness */
+      padding:3px;
+      border-radius:18px;
 
       background:
         conic-gradient(from 0deg,
@@ -236,9 +237,11 @@
         drop-shadow(0 0 42px color-mix(in oklab, var(--rgb2) 30%, transparent));
       opacity: .95;
 
+      /* “flow” feeling (no rotate on text, only border shader moving via background-position trick) */
       background-size: 200% 200%;
       animation: rgbFlow 1.4s linear infinite;
     }
+
     @keyframes rgbFlow{
       0%   { background-position: 0% 50%; }
       100% { background-position: 200% 50%; }
@@ -257,9 +260,7 @@
     }
 
     .laser-ico{
-      width:40px; height:40px;
-      display:grid; place-items:center;
-      flex:0 0 auto;
+      width:40px; height:40px; display:grid; place-items:center; flex:0 0 auto;
       filter: drop-shadow(0 0 12px rgba(107,220,255,.35));
     }
     .laser-text{ display:grid; line-height:1.2 }
@@ -273,9 +274,6 @@
 </head>
 
 <body>
-  <!-- ✅ Stars overlay for ALL pages -->
-  <canvas class="stars-global" id="starsGlobal" aria-hidden="true"></canvas>
-
   <div class="top" id="topbar">
     <div class="planet-wrap" aria-hidden="true">
       <div class="planet"><div class="ring"></div></div>
@@ -285,10 +283,11 @@
 
   <!-- Page 1 -->
   <section class="section hero" id="hero">
+    <canvas class="stars" id="stars" aria-hidden="true"></canvas>
     <h1 class="hero-title" id="heroTitle">Kaydarap</h1>
   </section>
 
-  <!-- Page 2 (UNCHANGED CONTENT) -->
+  <!-- Page 2 (UNCHANGED) -->
   <section class="sphere-section" id="sphere">
     <div class="three-wrap" id="three-container"></div>
   </section>
@@ -467,6 +466,7 @@
     new ResizeObserver(resize).observe(wrap);
     window.addEventListener('orientationchange', ()=>setTimeout(resize, 250));
 
+    // unified smooth autospin (same on mobile & desktop)
     const autoSpinY = 0.0015;
     const autoSpinX = 0.0006;
 
@@ -555,133 +555,5 @@
               <path d="M4 6.5l8 6 8-6" stroke="#a8ecff" stroke-width="1.6" fill="none"/>
             </svg>
           </div>
-          <div class="laser-text"><span class="laser-name">Email</span><span class="laser-handle">Kaydarap@gmail.com</span></div>
-        </a>
-
-        <a class="laser-card" href="https://discord.com/users/Kaydarap" target="_blank" rel="noopener">
-          <div class="laser-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7.1 6.3c1.6-.7 2.9-.8 2.9-.8l.2.4c-1.8.4-3 1.1-3 1.1 2.5-1.2 5.8-1.2 8.3 0 0 0-1.2-.8-3-1.1l.2-.4s1.3 0 2.9.8c0 0 1.9 2 2.1 6.1 0 0-1.2 2-4.3 2.1 0 0-.5-.6-.9-1.1 1.8-.5 2.5-1.4 2.5-1.4-.6.4-1.2.6-1.8.8-.8.3-1.5.4-2.2.4s-1.4-.1-2.2-.4c-.6-.2-1.2-.5-1.8-.8 0 0 .7.9 2.5 1.4-.4.5-.9 1.1-.9 1.1-3.1-.1-4.3-2.1-4.3-2.1.2-4.1 2.1-6.1 2.1-6.1z" fill="#a8ecff"/>
-              <circle cx="9.6" cy="11.3" r="1.1" fill="#0a1828"/>
-              <circle cx="14.4" cy="11.3" r="1.1" fill="#0a1828"/>
-            </svg>
-          </div>
-          <div class="laser-text"><span class="laser-name">Discord</span><span class="laser-handle">@Kaydarap</span></div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    /* ========= RGB engine (no rotation; just hue shifting) ========= */
-    (function rgbHueLoop(){
-      let h = 200;
-      let last = performance.now();
-      function step(now){
-        const dt = Math.min(40, now - last);
-        last = now;
-        h = (h + dt * 0.025) % 360;
-        document.documentElement.style.setProperty('--rgb-h', h.toFixed(2));
-        requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    })();
-
-    /* ========= Global Starfield (ALL PAGES) ========= */
-    (function globalStarfield(){
-      const canvas = document.getElementById('starsGlobal');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d', { alpha: true });
-
-      const DPR = Math.min(window.devicePixelRatio || 1, 2);
-      let W=0, H=0;
-      const stars = [];
-
-      function rand(a,b){ return a + Math.random()*(b-a); }
-      function clamp(x,a,b){ return Math.max(a, Math.min(b, x)); }
-
-      function countFor(w,h){
-        const area = w*h;
-        return Math.max(220, Math.min(680, Math.floor(area / 5200)));
-      }
-
-      function resize(){
-        W = Math.max(1, Math.floor(window.innerWidth));
-        H = Math.max(1, Math.floor(window.innerHeight));
-        canvas.width  = Math.floor(W * DPR);
-        canvas.height = Math.floor(H * DPR);
-        ctx.setTransform(DPR,0,0,DPR,0,0);
-
-        stars.length = 0;
-        const n = countFor(W,H);
-
-        for(let i=0;i<n;i++){
-          const r = rand(0.45, 1.8);
-          const tw = Math.random() < 0.82;
-
-          // blue/white stars like your photo
-          const tint =
-            Math.random() < 0.55 ? 'rgba(235,248,255,' :
-            (Math.random() < 0.65 ? 'rgba(195,235,255,' : 'rgba(255,255,255,');
-
-          stars.push({
-            x: Math.random()*W,
-            y: Math.random()*H,
-            r,
-            base: rand(0.06, 0.38),
-            amp: tw ? rand(0.10, 0.55) : rand(0.02, 0.10),
-            spd: tw ? rand(0.25, 1.10) : rand(0.05, 0.20),
-            ph: Math.random()*Math.PI*2,
-            tint
-          });
-        }
-      }
-
-      function draw(now){
-        const t = now * 0.001;
-        ctx.clearRect(0,0,W,H);
-
-        for(const s of stars){
-          const sin = Math.sin(t*s.spd + s.ph);
-          const micro = (Math.random()-0.5) * 0.05;
-          let a = s.base + (sin*0.5+0.5)*s.amp + micro;
-          a = clamp(a, 0.03, 0.98);
-
-          // soft glow
-          const haloR = s.r * 6.2;
-          const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, haloR);
-          g.addColorStop(0, s.tint + (a*0.95).toFixed(3) + ')');
-          g.addColorStop(0.22, s.tint + (a*0.22).toFixed(3) + ')');
-          g.addColorStop(1, s.tint + '0)');
-
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, haloR, 0, Math.PI*2);
-          ctx.fill();
-
-          // core dot
-          ctx.fillStyle = s.tint + a.toFixed(3) + ')';
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-          ctx.fill();
-
-          // rare sparkle
-          if (Math.random() < 0.0018){
-            ctx.fillStyle = s.tint + clamp(a+0.32,0,1).toFixed(3) + ')';
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r*1.65, 0, Math.PI*2);
-            ctx.fill();
-          }
-        }
-
-        requestAnimationFrame(draw);
-      }
-
-      window.addEventListener('resize', resize, {passive:true});
-      window.addEventListener('orientationchange', ()=>setTimeout(resize, 200));
-      resize();
-      requestAnimationFrame(draw);
-    })();
-  </script>
-</body>
-</html>
+          <div class="laser-text"><span class="laser-name">Email</span><span class="laser-handle">Kaydarap@gmail.com</span
+                                                                                                                      
