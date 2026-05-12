@@ -195,29 +195,7 @@
       .brand{ font-size:.88rem }
     }
 
-    /* ===== Section 3: Skull world ===== */
-    .skull{
-      min-height:100vh;
-      position:relative;
-      display:block;
-      padding:0;
-      z-index: 1;
-    }
-    #skull-world{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      overflow:hidden;
-    }
-    /* Keep skull centered and clean */
-    #skull-world canvas{
-      position:absolute;
-      inset:0;
-      width:100% !important;
-      height:100% !important;
-      display:block;
-    }
-
+    
     /* ===== Section 4: RGB Link Cards (thicker + faster) ===== */
     .links{
       min-height:100vh;
@@ -363,11 +341,6 @@
   <!-- Section 2 (UNCHANGED Three.js sphere) -->
   <section class="sphere-section" id="sphere">
     <div class="three-wrap" id="three-container"></div>
-  </section>
-
-  <!-- Section 3 (Skull from your ZIP) -->
-  <section class="skull" id="skull">
-    <div id="skull-world"></div>
   </section>
 
   <!-- Section 4: Links -->
@@ -739,22 +712,9 @@
     resize();
   </script>
 
-  <!-- ===== Section 3: Skull scripts (from your ZIP) ===== -->
-  <script type="module">
-    // This module will mount the skull into #skull-world
-    // We reuse your ZIP script logic but adapt container.
-    // We'll dynamically inject the original script logic by creating a module function.
+  
 
-    // We will load the original code as an inline module equivalent by recreating the key DOM expectation.
-    // It expects: <div id="world"></div> and uses global THREE after it loads.
-    const world = document.getElementById('skull-world');
-    world.id = "world";
-  </script>
-
-  <!-- Original external libs order (to match ZIP behavior) -->
-  <script src="https://unpkg.com/three@0.121.1/build/three.min.js"></script>
-  <script src="https://unpkg.com/dat.gui@0.7.7/build/dat.gui.min.js"></script>
-
+ 
   <!-- ZIP script content -->
   <script type="module">
 /* === BEGIN: your ZIP script.js (unchanged) === */
